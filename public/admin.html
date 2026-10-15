@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Admin · CanteenGo</title>
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <span class="brand"><span class="brand-dot"></span> CanteenGo Admin</span>
+      <nav class="nav">
+        <button data-tab="dashboard">Dashboard</button>
+        <button data-tab="menu">Menu</button>
+        <button data-tab="stock">Stock &amp; Restock</button>
+        <button data-tab="wallets">Wallets</button>
+        <button data-tab="suspensions">Suspensions</button>
+        <button data-tab="settings">Slots &amp; Settings</button>
+        <button data-tab="accounts">Accounts</button>
+      </nav>
+      <span class="spacer"></span>
+      <span class="user-chip hide-mobile" id="userName"></span>
+      <button class="btn ghost sm" onclick="changePasswordDialog()">Password</button>
+      <button class="btn ghost sm" onclick="logout()">Log out</button>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- Dashboard -->
+    <section id="tab-dashboard" class="stack hidden">
+      <div class="row between">
+        <h2 style="margin:0">Sales dashboard</h2>
+        <select id="dashDays" style="width:auto">
+          <option value="7">Last 7 days</option>
+          <option value="14">Last 14 days</option>
+          <option value="30">Last 30 days</option>
+        </select>
+      </div>
+      <div id="dashBody" class="stack"></div>
+    </section>
+
+    <!-- Menu -->
+    <section id="tab-menu" class="stack hidden">
+      <div class="row between">
+        <h2 style="margin:0">Menu items</h2>
+        <button class="btn" id="addItem">+ Add item</button>
+      </div>
+      <div class="glass-card table-wrap" id="menuTable"></div>
+    </section>
+
+    <!-- Stock & restock -->
+    <section id="tab-stock" class="stack hidden">
+      <div class="grid grid-2" id="restockBody"></div>
+      <div class="glass-card table-wrap">
+        <div class="row between" style="margin-bottom:8px">
+          <h2 style="margin:0">Set today's stock</h2>
+          <small class="muted">e.g. "50 Adobo Rice available today"</small>
+        </div>
+        <div id="stockTable"></div>
+      </div>
+    </section>
+
+    <!-- Wallets -->
+    <section id="tab-wallets" class="hidden">
+      <div class="grid grid-2">
+        <div class="glass-card">
+          <h2>Find student</h2>
+          <div id="walletSearch"></div>
+          <div class="divider"></div>
+          <button class="btn secondary sm" id="openDemo">Open demo account (2026-0001)</button>
+        </div>
+        <div id="walletDetail"><div class="glass-card empty">Select a student to view their wallet.</div></div>
+      </div>
+      <div class="glass-card table-wrap hidden" id="walletTxns" style="margin-top:16px"></div>
+    </section>
+
+    <!-- Suspensions -->
+    <section id="tab-suspensions" class="stack hidden">
+      <h2>Suspension overview</h2>
+      <div id="suspInfo"></div>
+      <div class="glass-card table-wrap" id="suspTable"></div>
+    </section>
+
+    <!-- Slots & settings -->
+    <section id="tab-settings" class="hidden">
+      <div class="grid grid-2">
+        <div class="glass-card">
+          <div class="row between" style="margin-bottom:8px">
+            <h2 style="margin:0">Pickup time slots</h2>
+            <button class="btn sm" id="addSlot">+ Add slot</button>
+          </div>
+          <div class="table-wrap" id="slotTable"></div>
+        </div>
+        <div class="glass-card">
+          <h2>System rules</h2>
+          <form id="settingsForm">
+            <div class="field"><label>Cancellation window (minutes)</label><input type="number" name="cancel_window_minutes" min="1" max="60" required></div>
+            <div class="field"><label>Consecutive no-shows before suspension</label><input type="number" name="no_show_limit" min="1" max="20" required></div>
+            <div class="field"><label>Suspension length (days)</label><input type="number" name="suspension_days" min="1" max="60" required></div>
+            <div class="field"><label>End of lunch (orders held until this time)</label><input type="time" name="lunch_end_time" required></div>
+            <div class="field"><label>Maximum single top-up (₱)</label><input type="number" name="max_topup" min="1" step="1" required></div>
+            <div class="field"><label>Starting balance for new student accounts (₱)</label><input type="number" name="starting_balance" min="0" step="1" required></div>
+            <div class="field"><label>Demo account reset balance (₱)</label><input type="number" name="demo_balance" min="0" step="1" required></div>
+            <button class="btn" type="submit">Save settings</button>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- Accounts -->
+    <section id="tab-accounts" class="hidden">
+      <div class="grid grid-2">
+        <div class="glass-card table-wrap" id="accountsTable"></div>
+        <div class="glass-card">
+          <h2>Create staff / cashier / admin account</h2>
+          <p class="muted" style="font-size:0.85rem">Students create their own accounts in the student app.</p>
+          <form id="accountForm">
+            <div class="field"><label>Role</label>
+              <select name="role"><option value="staff">Canteen Staff</option><option value="cashier">School Cashier</option><option value="admin">Admin</option></select></div>
+            <div class="field"><label>Username</label><input name="login_id" required></div>
+            <div class="field"><label>Full name</label><input name="full_name" required></div>
+            <div class="field"><label>Temporary password (min. 8)</label><input name="password" type="password" minlength="8" required></div>
+            <button class="btn" type="submit">Create account</button>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="/js/common.js"></script>
+  <script src="/js/shell.js"></script>
+  <script src="/js/admin.js"></script>
+</body>
+</html>

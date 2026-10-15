@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CanteenGo Back-Office</title>
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+  <main class="center-page"><div class="glass-card">Loading…</div></main>
+  <script src="/js/common.js"></script>
+  <script>
+    api('/api/auth/me', { noRedirect: true })
+      .then((me) => (location.href = me.home))
+      .catch(() => (location.href = '/login.html'));
+  </script>
+</body>
+</html>
