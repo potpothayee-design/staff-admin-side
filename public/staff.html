@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Staff · Canteen Back-Office</title>
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <span class="brand"><span class="brand-dot"></span> Canteen Staff</span>
+      <nav class="nav">
+        <button data-tab="queue">Order Queue</button>
+        <button data-tab="pickup">Pickup / Scan</button>
+        <button data-tab="lunch">End of Lunch</button>
+        <button data-tab="walkin">Walk-In Sale</button>
+        <button data-tab="lookup">Balance Lookup</button>
+      </nav>
+      <span class="spacer"></span>
+      <span class="user-chip hide-mobile" id="userName"></span>
+      <button class="btn ghost sm" onclick="changePasswordDialog()">Password</button>
+      <button class="btn ghost sm" onclick="logout()">Log out</button>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- Order queue -->
+    <section id="tab-queue" class="stack hidden">
+      <div class="grid grid-4" id="queueStats"></div>
+      <div class="row between">
+        <h2 style="margin:0">Today's orders by pickup slot</h2>
+        <small class="muted">Updates automatically every 10 seconds</small>
+      </div>
+      <div id="queueList" class="stack"></div>
+    </section>
+
+    <!-- Pickup -->
+    <section id="tab-pickup" class="stack hidden">
+      <div class="glass-card" style="max-width:560px">
+        <h2>Verify &amp; release</h2>
+        <p class="muted">Type the order number or scan the student's QR code.</p>
+        <form id="lookupForm" class="row">
+          <input id="codeInput" class="mono" placeholder="e.g. K7M3QD" style="flex:1;text-transform:uppercase;letter-spacing:2px" autocomplete="off" />
+          <button class="btn" type="submit">Find</button>
+          <button class="btn secondary" type="button" id="scanBtn">Scan QR</button>
+        </form>
+        <video id="scanVideo" class="hidden" playsinline muted style="width:100%;border-radius:12px;margin-top:12px"></video>
+      </div>
+      <div id="pickupResult" style="max-width:560px"></div>
+    </section>
+
+    <!-- End of lunch -->
+    <section id="tab-lunch" class="stack hidden">
+      <div id="lunchInfo"></div>
+      <div class="glass-card table-wrap" id="unclaimedList"></div>
+    </section>
+
+    <!-- Walk-in -->
+    <section id="tab-walkin" class="hidden">
+      <div class="grid grid-2">
+        <div class="glass-card">
+          <h2>Items</h2>
+          <div id="walkinMenu"></div>
+        </div>
+        <div class="stack">
+          <div class="glass-card">
+            <h2>Customer &amp; payment</h2>
+            <div class="field">
+              <label>Payment method</label>
+              <div class="tabs" id="payTabs" style="margin-bottom:0">
+                <button type="button" class="active" data-pay="wallet">Student wallet</button>
+                <button type="button" data-pay="cash">Cash</button>
+              </div>
+            </div>
+            <div id="walkinStudent"></div>
+            <div id="walkinStudentSearch"></div>
+            <small class="muted" id="cashHint"></small>
+          </div>
+          <div class="glass-card">
+            <h2>Summary</h2>
+            <ul class="order-items" id="walkinSummary"></ul>
+            <div class="row between"><b>Total</b><b id="walkinTotal">₱0.00</b></div>
+            <button class="btn block" id="walkinSubmit" style="margin-top:12px">Complete sale</button>
+            <p class="muted" style="font-size:0.8rem;margin:8px 0 0">Walk-in sales do not count toward no-shows.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Balance lookup -->
+    <section id="tab-lookup" class="hidden">
+      <div class="grid grid-2">
+        <div class="glass-card">
+          <h2>Wallet balance lookup</h2>
+          <p class="muted">Read-only. Staff cannot add money: top-ups are done only at the school cashier.</p>
+          <div id="lookupSearch"></div>
+        </div>
+        <div id="lookupResult"></div>
+      </div>
+    </section>
+  </main>
+
+  <script src="/js/common.js"></script>
+  <script src="/js/shell.js"></script>
+  <script src="/js/staff.js"></script>
+</body>
+</html>
